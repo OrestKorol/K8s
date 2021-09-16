@@ -18,7 +18,7 @@
 
 ## Simple app deployment
 
-   > You can find an example app in the AppExmpl folder, but this guide should work for any app
+   > You can find an example app in the src folder, but this guide should work for any app
 
    ---
 
