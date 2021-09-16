@@ -1,0 +1,46 @@
+# create namespace and intall metallb
+
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml
+
+# enable ARP in Kube-proxy
+kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl diff -f - -n kube-system
+kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
+
+# create config for metallb
+sudo nano config.yaml
+----------------
+# fill file with:
+
+
+----------------
+kubectl apply -f config.yaml --namespace=metallb-system
+
+# intall nginx-controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/baremetal/deploy.yaml
+
+# to see install progress status
+kubectl get pods -n ingress-nginx \
+  -l app.kubernetes.io/name=ingress-nginx --watch
+
+# check ingress services&deployment
+kubectl -n ingress-nginx get all
+
+# Change from NodeIP to LoadBalancer
+kubectl edit svc ingress-nginx-controller -n ingress-nginx
+
+# create ingress
+sudo nano example-ingress.yaml
+----------------
+# fill file with:
+
+
+----------------
+# deploy ingress
+kubectl apply -f example-ingress.yaml
+
+# check ingress
+kubectl get ingress
+
+# add ip&DNS to hosts file
+sudo nano /etc/hosts
