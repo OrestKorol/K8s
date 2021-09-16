@@ -36,7 +36,7 @@
 
    Created `pods`:
 
-   ![AppPods](./img/Apppods.png)
+   ![AppPods](./img/AppPods.png)
 
    >Notice that for properly working ingress with DNS name, your service should be of type `ClusterIP `
 
