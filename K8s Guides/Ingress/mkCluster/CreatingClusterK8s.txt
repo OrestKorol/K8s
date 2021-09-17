@@ -34,6 +34,11 @@ sudo apt install docker.io
 sudo systemctl enable --now docker
 sudo usermod -aG docker [user_name]
 docker --version
+sudo nano /etc/docker/daemon.json
+=========
+{"exec-opts": ["native.cgroupdriver=systemd"]}
+=========
+sudo systemctl restart docker
 docker run hello-world
 lsmod | grep br_netfilter
 sudo systemctl enable kubelet
